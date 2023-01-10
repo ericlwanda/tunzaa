@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Models\Product;
 
 class ProductController extends Controller
 {
@@ -14,8 +19,8 @@ class ProductController extends Controller
     public function index()
     {
         //
-        
-        return view('pages.products');
+        $products=Product::all();
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -37,6 +42,61 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+
+
+
+        //validate input
+     
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'amount' => 'required',
+            'category' => 'required',
+            'image' => 'image|nullable|max:1999'
+        ]);
+
+ 
+
+    if($validator->fails()){
+
+        return redirect('/products')->with('error', 'Product not created');
+    }else{
+           
+             //handle file upload
+        if($request->hasFile('image')){
+            //get filename with extension
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            //get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            //get just extension
+            $extension = $request->file('image')->getClientOriginalExtension();
+            //filename to store
+            $fileNameToStore = $filename.'_'.time().'.'.$extension;
+            //upload image
+            $path = $request->file('image')->storeAs('public/images', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
+
+        //create new product
+        $product = new Product;
+        $product->name = $request->input('name');
+        $product->price = $request->input('price');
+        $product->description = $request->input('description');
+        $product->amount = $request->input('amount');
+        $product->category = $request->input('category');
+        $product->image = 'images/'.$fileNameToStore;
+        $product->save();
+
+        session::flash('success', 'Product Created');
+        return redirect('/products');
+
+
+        }
+
+       
+
     }
 
     /**
@@ -48,18 +108,13 @@ class ProductController extends Controller
     public function show($id)
     {
         //
+        $product=Product::findorfail($id);
+
+  
+        return view('products.show', compact('product'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+ 
 
     /**
      * Update the specified resource in storage.
@@ -71,6 +126,57 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+               //validate input
+     
+               $validator = Validator::make($request->all(), [
+                'name' => 'required',
+                'price' => 'required',
+                'description' => 'required',
+                'amount' => 'required',
+                'category' => 'required',
+                'image' => 'image|nullable|max:1999'
+            ]);
+    
+     
+    
+        if($validator->fails()){
+
+            return redirect('/products')->with('error', 'Product not created');
+        }else{
+               
+                 //handle file upload
+            if($request->hasFile('image')){
+                //get filename with extension
+                $filenameWithExt = $request->file('image')->getClientOriginalName();
+                //get just filename
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                //get just extension
+                $extension = $request->file('image')->getClientOriginalExtension();
+                //filename to store
+                $fileNameToStore = $filename.'_'.time().'.'.$extension;
+                //upload image
+                $path = $request->file('image')->storeAs('public/images', $fileNameToStore);
+            } else {
+                $fileNameToStore = 'noimage.jpg';
+            }
+    
+            //create new product
+            $product = Product::findorfail($id);
+            $product->name = $request->input('name');
+            $product->price = $request->input('price');
+            $product->description = $request->input('description');
+            $product->amount = $request->input('amount');
+            $product->category = $request->input('category');
+            // $product->image = 'images/'.$fileNameToStore;
+            $product->update();
+    
+            session::flash('success', 'Product Updated');
+            return redirect('/products');
+    
+    
+            }
+    
     }
 
     /**
@@ -82,5 +188,10 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+        $product = Product::findorfail($id);
+        $product->delete();
+        session::flash('success', 'Product Deleted');
+        return redirect('/products');
+
     }
 }

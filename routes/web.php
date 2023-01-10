@@ -24,15 +24,21 @@ Route::post('custom-login', [AuthController::class, 'customLogin'])->name('login
 Route::get('register', [AuthController::class, 'registration'])->name('register');
 Route::post('custom-registration', [AuthController::class, 'customRegistration'])->name('register.custom'); 
 
+Route::get('/cart/{id}',[PageController::class, 'orders'])->name('add.cart');
+Route::post('/cart/{id}',[PageController::class, 'orders'])->name('add.cart');
 
 Route::middleware('auth:web')->group(function(){
 Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard'); 
 Route::get('/blank',[PageController::class, 'blank'])->name('blank');
 
 Route::get('/form',[PageController::class, 'form'])->name('form');
+Route::get('/orders',[PageController::class, 'orders'])->name('orders');
 
 // Products
 Route::get('/products',[ProductController::class, 'index'])->name('products');
+Route::get('/products/show/{id}',[ProductController::class, 'show'])->name('products.show');
 Route::post('/products/store',[ProductController::class, 'store'])->name('products.store');
+Route::post('/products/update/{id}',[ProductController::class, 'update'])->name('products.update');
+Route::post('/products/destroy/{id}',[ProductController::class, 'destroy'])->name('products.destroy');
 Route::get('logout', [AuthController::class, 'signOut'])->name('logout');
 });

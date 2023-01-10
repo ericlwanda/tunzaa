@@ -105,6 +105,9 @@
                     <li class="sidebar-item">
                       <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('products') }}" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu">Products</span></a>
                    </li>
+                   <li class="sidebar-item">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" href="{{ route('orders') }}" aria-expanded="false"><i class="mdi mdi-chart-bubble"></i><span class="hide-menu">Orders</span></a>
+                  </li>
                   
               
               

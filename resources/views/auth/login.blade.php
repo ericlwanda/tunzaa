@@ -10,7 +10,7 @@
 
       
         <div class="login-inner-contain">
-         <div class="page-title container-fluid justify-center"><h1>{{__('Laravel Template')}}</h1></div>
+         <div class="page-title container-fluid justify-center"><h1>{{__('Ecommerce')}}</h1></div>
             
             <div class="login-form">
                 <div class="page-title"><h5>{{__('Login')}}</h5></div>
@@ -35,6 +35,11 @@
                     <div class="custom-control custom-checkbox remember-me-text">
                         <input type="checkbox" class="custom-control-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label class="custom-control-label" for="remember">{{__('Remember Me')}}</label>
+                    </div>
+                    <br>
+                    <div>
+
+                        <p>{{__('Don\'t have an accoutnt?')}}<a href="{{ route('register') }}">Register Here</a></p>
                     </div>
 
                     @if (Route::has('password.request'))
