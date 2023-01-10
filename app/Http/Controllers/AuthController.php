@@ -28,7 +28,13 @@ class AuthController extends Controller
             if($user->is_active == 1){
                     if(Auth::attempt(['phone' => $request->phone, 'password' => $request->password])){
 
-                        return redirect()->route('dashboard');        
+                        if(Auth::user()->userRole == 'bussiness'){
+                            return redirect()->route('dashboard');
+                        }else{
+                            return redirect()->route('pos'); 
+                        }
+
+                               
                     }
                     else{
                         return redirect()->route('login')->withErrors(['phone'=> 'Wrong Phone Number or Password']);

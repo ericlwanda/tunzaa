@@ -1,6 +1,6 @@
 @extends('layout.layout')
 @section('page-title')
-{{__('Tables')}}
+{{__('Products')}}
 @endsection
 
 @section('content')
@@ -111,9 +111,9 @@
                                                             </div>
 
                                                             <div class="form-group row">
-                                                                <label for="lname" class="col-sm-3 text-end control-label col-form-label">amount in stock</label>
+                                                                <label for="lname" class="col-sm-3 text-end control-label col-form-label">quantity in stock</label>
                                                                 <div class="col-sm-9">
-                                                                    <input type="number" class="form-control" id="amount" name="amount" value="{{$product->amount}}" placeholder="amount" />
+                                                                    <input type="number" class="form-control" id="quantity" name="quantity" value="{{$product->quantity}}" placeholder="quantity" />
                                                                 </div>
                                                             </div>
 
@@ -222,9 +222,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="lname" class="col-sm-3 text-end control-label col-form-label">amount in stock</label>
+                            <label for="lname" class="col-sm-3 text-end control-label col-form-label">quantity in stock</label>
                             <div class="col-sm-9">
-                                <input type="number" class="form-control" id="amount" name="amount" placeholder="amount" />
+                                <input type="number" class="form-control" id="quantity" name="quantity" placeholder="quantity" />
                             </div>
                         </div>
 

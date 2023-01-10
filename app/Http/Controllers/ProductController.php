@@ -51,7 +51,7 @@ class ProductController extends Controller
             'name' => 'required',
             'price' => 'required',
             'description' => 'required',
-            'amount' => 'required',
+            'quantity' => 'required',
             'category' => 'required',
             'image' => 'image|nullable|max:1999'
         ]);
@@ -84,7 +84,7 @@ class ProductController extends Controller
         $product->name = $request->input('name');
         $product->price = $request->input('price');
         $product->description = $request->input('description');
-        $product->amount = $request->input('amount');
+        $product->quantity = $request->input('quantity');
         $product->category = $request->input('category');
         $product->image = 'images/'.$fileNameToStore;
         $product->save();
@@ -133,7 +133,7 @@ class ProductController extends Controller
                 'name' => 'required',
                 'price' => 'required',
                 'description' => 'required',
-                'amount' => 'required',
+                'quantity' => 'required',
                 'category' => 'required',
                 'image' => 'image|nullable|max:1999'
             ]);
@@ -166,7 +166,7 @@ class ProductController extends Controller
             $product->name = $request->input('name');
             $product->price = $request->input('price');
             $product->description = $request->input('description');
-            $product->amount = $request->input('amount');
+            $product->quantity = $request->input('quantity');
             $product->category = $request->input('category');
             // $product->image = 'images/'.$fileNameToStore;
             $product->update();

@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\POSController;
+
 
 
 /*
@@ -18,20 +20,30 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/',[HomeController::class, 'index'])->name('index');
+
+Route::get('/',[POSController::class, 'index'])->name('home');
 Route::get('login', [AuthController::class, 'login'])->name('login');
 Route::post('custom-login', [AuthController::class, 'customLogin'])->name('login.custom'); 
 Route::get('register', [AuthController::class, 'registration'])->name('register');
-Route::post('custom-registration', [AuthController::class, 'customRegistration'])->name('register.custom'); 
+Route::post('custom-registration', [AuthController::class, 'customRegistration'])->name('register.custom');
 
-Route::get('/cart/{id}',[PageController::class, 'orders'])->name('add.cart');
-Route::post('/cart/{id}',[PageController::class, 'orders'])->name('add.cart');
+
+
+//cart
+
+Route::get('cart', [POSController::class, 'cart'])->name('cart');
+Route::get('add-to-cart/{id}', [POSController::class, 'addToCart'])->name('add.to.cart');
+Route::patch('update-cart', [POSController::class, 'update'])->name('update.cart');
+Route::delete('remove-from-cart', [POSController::class, 'remove'])->name('remove.from.cart');
+Route::post('store', [POSController::class, 'store'])->name('store.cart');
+
 
 Route::middleware('auth:web')->group(function(){
 Route::get('dashboard', [AuthController::class, 'dashboard'])->name('dashboard'); 
-Route::get('/blank',[PageController::class, 'blank'])->name('blank');
+Route::get('pos', [POSController::class,  'pos'])->name('pos');
 
-Route::get('/form',[PageController::class, 'form'])->name('form');
+
+
 Route::get('/orders',[PageController::class, 'orders'])->name('orders');
 
 // Products
@@ -40,5 +52,10 @@ Route::get('/products/show/{id}',[ProductController::class, 'show'])->name('prod
 Route::post('/products/store',[ProductController::class, 'store'])->name('products.store');
 Route::post('/products/update/{id}',[ProductController::class, 'update'])->name('products.update');
 Route::post('/products/destroy/{id}',[ProductController::class, 'destroy'])->name('products.destroy');
+
+
+
+
+
 Route::get('logout', [AuthController::class, 'signOut'])->name('logout');
 });
